@@ -10,12 +10,12 @@
     "npm": ">=11.10.0"
   },
   "scripts": {
-    "start": "node --env-file-if-exists=.env src/index.ts",
-    "dev": "SHUTDOWN_DRAIN_MS=2000 node --env-file-if-exists=.env --watch src/index.ts",
-    "dev-instance": "bash scripts/dev-instance.sh up",
-    "dev-instance:no-slack": "bash scripts/dev-instance.sh up --no-slack",
-    "dev-instance:status": "bash scripts/dev-instance.sh status",
-    "dev-instance:down": "bash scripts/dev-instance.sh down",
+    "start": "node init && node --env-file-if-exists=.env src/index.ts",
+    "dev": "node init && SHUTDOWN_DRAIN_MS=2000 node --env-file-if-exists=.env --watch src/index.ts",
+    "dev-instance": "node init && bash scripts/dev-instance.sh up",
+    "dev-instance:no-slack": "node init && bash scripts/dev-instance.sh up --no-slack",
+    "dev-instance:status": "node init && bash scripts/dev-instance.sh status",
+    "dev-instance:down": "node init && bash scripts/dev-instance.sh down",
     "worker": "node --env-file-if-exists=.env src/runs/worker-main.ts",
     "test": "node --experimental-test-module-mocks --test test/*.test.ts",
     "test:root:shard": "node scripts/run-root-test-shard.mjs",
@@ -32,7 +32,7 @@
     "smoke:service-cred": "node scripts/service-credential-livetest.ts",
     "smoke:aws-sandbox": "node scripts/aws-sandbox-smoke.ts",
     "smoke:local-sandbox": "node scripts/local-sandbox-smoke.ts",
-    "build:aws-image": "node scripts/aws-build-sandbox-image.ts",
+    "build:aws-image": "node init && node scripts/aws-build-sandbox-image.ts",
     "sandbox:local:build": "bash scripts/local-sandbox-build.sh",
     "deploy:fly-image": "flyctl deploy --remote-only --build-only --push --image-label latest --app \"${FLY_SANDBOX_APP_NAME:?Set FLY_SANDBOX_APP_NAME to your operator-owned app}\" -c fly/fly.toml --dockerfile fly/Dockerfile . --yes",
     "test:pg": "node --test --test-concurrency=1 test/postgres-store.test.ts test/postgres-grant-store.test.ts test/postgres-admin-grants.test.ts test/postgres-file-artifact-store.test.ts test/postgres-directory-store.test.ts test/postgres-map.test.ts test/cron-queue.test.ts test/postgres-metrics-sink.test.ts test/postgres-error-log.test.ts test/postgres-audit-log.test.ts test/postgres-budget.test.ts test/postgres-rate-limiter.test.ts test/postgres-credential-usage-sink.test.ts test/postgres-config-store.test.ts test/postgres-delivery-store.test.ts test/postgres-replay-dedupe.test.ts test/postgres-egress-audit-sink.test.ts test/postgres-memory-service.test.ts test/run-signal-store.test.ts test/postgres-run-activity-store.test.ts test/leader-lease.test.ts test/advisory-lock.test.ts test/persistence-init-retry.test.ts test/migrate-principals.test.ts test/postgres-surface-cache.test.ts test/postgres-instance-registry.test.ts",
@@ -44,7 +44,7 @@
     "format:check": "prettier --check --ignore-unknown .",
     "lint": "eslint .",
     "lint:ox": "oxlint --deny-warnings src plugins scripts cli test",
-    "dev-instance:doctor": "bash scripts/dev-instance.sh doctor",
+    "dev-instance:doctor": "node init && bash scripts/dev-instance.sh doctor",
     "lint:knip": "knip"
   },
   "dependencies": {

@@ -3,9 +3,7 @@ data/
 *.log
 .DS_Store
 
-.env
 *.env
-.env.local
 *.env.local
 *.tfstate
 *.tfstate.*
@@ -21,3 +19,4 @@ __pycache__/
 docs/master.html
 
 .context/
+config.bat
